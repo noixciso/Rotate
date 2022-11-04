@@ -6,7 +6,7 @@ public class PlayerInput : MonoBehaviour
     private Vector3 _startTouchPosition;
     private Vector3 _endTouchPosition;
 
-    public event UnityAction<Side> Rotate;
+    public event UnityAction<TurnSide> Rotate;
 
     private void Update()
     {
@@ -21,11 +21,11 @@ public class PlayerInput : MonoBehaviour
 
             if (_endTouchPosition.x < _startTouchPosition.x)
             {
-                Rotate?.Invoke(Side.Left);
+                Rotate?.Invoke(TurnSide.Left);
             }
             else if (_endTouchPosition.x > _startTouchPosition.x)
             {
-                Rotate?.Invoke(Side.Right);
+                Rotate?.Invoke(TurnSide.Right);
             }
         }
     }

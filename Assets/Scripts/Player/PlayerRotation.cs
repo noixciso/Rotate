@@ -1,7 +1,8 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public enum Side
+public enum TurnSide
 {
     Left,
     Right
@@ -12,7 +13,7 @@ public class PlayerRotation : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private float _degree = 90;
-    private float _turnSpeed = 1;
+    private bool _isTurnAvailable = true;
 
     private void Awake()
     {
@@ -29,23 +30,30 @@ public class PlayerRotation : MonoBehaviour
         _playerInput.Rotate -= OnRotate;
     }
 
-    private void OnRotate(Side side)
+    private void OnRotate(TurnSide turnSide)
     {
-        if (side == Side.Left)
+        if (_isTurnAvailable)
         {
-            Rotate(_degree);
-        }
-        else if (side == Side.Right)
-        {
-            Rotate(-_degree);
+            if (turnSide == TurnSide.Left)
+            {
+                StartCoroutine(Rotate(_degree));
+            }
+            else if (turnSide == TurnSide.Right)
+            {
+                StartCoroutine(Rotate(-_degree));
+            }
         }
     }
 
-    private void Rotate(float degree)
+    private IEnumerator Rotate(float degree)
     {
         float xRotate = 0;
         float zRotate = 0;
-        
-        transform.DORotate(new Vector3(xRotate, degree, zRotate), _turnSpeed).SetRelative(true);
+        float turnSpeed = 0.5f;
+
+        _isTurnAvailable = false;
+        transform.DORotate(new Vector3(xRotate, degree, zRotate), turnSpeed).SetRelative(true);
+        yield return new WaitForSeconds(turnSpeed);
+        _isTurnAvailable = true;
     }
 }
