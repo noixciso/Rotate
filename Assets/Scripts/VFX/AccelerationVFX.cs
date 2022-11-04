@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class VFX : MonoBehaviour
+public class AccelerationVFX : MonoBehaviour
 {
     [SerializeField] private PlayerMover _playerMover;
     [SerializeField] private ParticleSystem _vfx;
